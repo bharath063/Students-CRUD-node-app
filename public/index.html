@@ -1,0 +1,391 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Student Management</title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <script src="lib/angular.js"></script>
+    <script src="lib/jquery-1.11.1.js"></script>
+    <script src="lib/bootstrap.js"></script>
+</head>
+<body>
+    <!-- IMPORTANT -->
+    <!-- Insert code here for Login Authentication -->
+    
+    <!-- End Login Authentication code -->
+
+
+    <div class="container" style="padding-top:20px;">
+        <div ng-app="studentApp" data-ng-controller="studentController" class="container">
+            <div ng-show="error"  class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <p>{{ error }}</p>
+            </div>
+
+            <p><a data-ng-click="showadd()" href="javascript:;" class="btn btn-primary"> <strong>+</strong> Add New student </a></p>
+<!--  Add new Student Modal -->
+            <div class="modal fade" id="studentModel" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                            <h4 class="modal-title" id="myModalLabel" ng-hide="editMode">Add student</h4>
+                            <h4 class="modal-title" id="myModalLabel" ng-show="editMode">Edit student</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form" name="addstudentform">
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" data-ng-model="student.Name" class="form-control" id="title" placeholder="Enter Name" required title="Enter name" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">Age</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" data-ng-model="student.Age" class="form-control" id="title" placeholder="Enter Age" required title="Enter Age" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">D.O.B</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" data-ng-model="student.DOB" class="form-control" id="title" placeholder="Enter D.O.B" required title="Enter D.O.B" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">Address</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" data-ng-model="student.Address" class="form-control" id="title" placeholder="Enter Address" required title="Enter address" />
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">Gender</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" data-ng-model="student.Gender" class="form-control" id="title" placeholder="Gender" required title="Gender" /> 
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">Gender</label>
+                                    <div class="col-sm-10">
+                                                                             <label class="radio-inline">
+
+                                     <input type="radio" data-ng-model="student.Gender" class="radio-inline" id="title" placeholder="Gender" required title="Gender" name="sex" value="M">Male</input> </label>
+                                     <label class="radio-inline">
+                                        <input type="radio" data-ng-model="student.Gender" class="radio-inline" id="title" placeholder="Gender" required title="Gender" name="sex" value="F">Female</input> </label>
+
+
+    
+   
+
+
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">Course</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" data-ng-model="student.Course" class="form-control" id="title" placeholder="Course" required title="Course" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <span data-ng-hide="editMode">
+                                            <input type="submit" value="Add" ng-disabled="addstudentform.$invalid" data-ng-click="add()" class="btn btn-primary" />
+                                        </span>
+                                        <span data-ng-show="editMode">
+                                            <input type="submit" value="Update" ng-disabled="addstudentform.$invalid" data-ng-click="update()" class="btn btn-primary" />
+                                        </span>
+                                        <input type="button" value="Cancel" data-ng-click="cancel()" class="btn btn-primary" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--  End Add new Student Modal -->
+
+
+<!-- Students Listing -->
+            <h1>Students List</h1>
+            <table class="table table-hover">
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>D.O.B</th>
+                    <th>Address</th>
+                    <th>Gender</th>
+                    <th>Course</th>
+                    <th></th>
+
+                </tr>
+
+                <tr data-ng-repeat="student in Students">
+                    <td><strong>{{ student.ID }}</strong></td>
+                    <td>
+                        <p>{{ student.Name }}</p>
+
+                    </td>
+                    <td>
+                        <p>{{ student.Age }}</p>
+
+                    </td>
+                    <td>
+                        <p>{{ student.DOB }}</p>
+
+                    </td>
+                    <td>
+                        <p>{{ student.Address }}</p>
+
+                    </td>
+                    <td>
+                        <p>{{ student.Gender }}</p>
+
+                    </td>
+                    <td>
+                        <p>{{ student.Course }}</p>
+
+                    </td>
+                  
+                    <td>
+                        <p>
+                            <a data-ng-click="get(student)" href="javascript:;">View</a> |
+                            <a data-ng-click="edit(student)" href="javascript:;">Edit</a> |
+                            <a data-ng-click="showconfirm(student)" href="javascript:;">Delete</a>
+                        </p>
+
+                    </td>
+                </tr>
+            </table>
+
+<!--  End Students Listing -->
+            <hr />
+
+
+
+
+
+<!-- Individual Student View -->
+            <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                            <h4 class="modal-title" id="myModalLabel">View student</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" role="form" name="viewstudent">
+                                <div class="form-group">
+                                    <label for="Name" class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-10">
+                                        {{student.Name}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Age" class="col-sm-2 control-label">Age</label>
+                                    <div class="col-sm-10">
+                                        {{student.Age}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="DOB" class="col-sm-2 control-label">D.O.B</label>
+                                    <div class="col-sm-10">
+                                        {{student.DOB}}
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="Address" class="col-sm-2 control-label">Address</label>
+                                    <div class="col-sm-10">
+                                        {{student.Address}}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Gender" class="col-sm-2 control-label">Gender</label>
+                                    <div class="col-sm-10">
+                                        {{student.Gender}}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Course" class="col-sm-2 control-label">Course</label>
+                                    <div class="col-sm-10">
+                                        {{student.Course}}
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!-- End Individual Student View -->
+
+<!--  Confirm Student Delete Modal -->
+            <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+                            <h4 class="modal-title" id="myModalLabel">Confirm Action</h4>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure to delete?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-ng-click="delete()">Ok</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--  End Confirm Student Delete Modal -->
+        </div>
+    </div>
+
+
+    <script>
+        var app = angular.module('studentApp', []);
+        // var baseAddress = 'http://localhost:49595/MobileService/api/studentService/';
+        var baseAddress = 'http://localhost:3000/api/';
+        var url = "";
+
+        app.factory('studentFactory', function ($http) {
+            return {
+                getstudentsList: function () {
+                    url = baseAddress + "Students";
+                    return $http.get(url);
+                },
+                getstudent: function (student) {
+                    url = baseAddress + "Students/" + student.ID;
+                    return $http.get(url);
+                },
+                addstudent: function (student) {
+                    url = baseAddress + "students";
+                    return $http.post(url, student);
+                },
+                deletestudent: function (student) {
+                    url = baseAddress + "Students/" + student.ID;
+                    return $http.delete(url);
+                },
+                updatestudent: function (student) {
+                    url = baseAddress + "Students/" + student.ID;
+                    console.log('Updating Student ID: '+student.ID);
+                    console.log(student);
+                    return $http.put(url, student);
+                }
+            };
+        });
+
+        app.controller('studentController', function PostController($scope, studentFactory) {
+            $scope.Students= [];
+            $scope.student = null;
+            $scope.editMode = false;
+
+            //get student
+            $scope.get = function () {
+                $scope.student = this.student;
+                $('#viewModal').modal('show');
+            };
+
+            //get all students
+            $scope.getAll = function () {
+                studentFactory.getstudentsList().success(function (data) {
+                    $scope.Students= data;
+                    // $scope.Students=JSON.stringify(data);
+                    console.log("getstudentsList() Successful");
+                    console.log(JSON.stringify(data));
+                }).error(function (data) {
+                    $scope.error = "An Error has occured while Loading students! " + data.ExceptionMessage;
+                });
+            };
+
+            // add student
+            $scope.add = function () {
+                var currentstudent = this.student;
+                if (currentstudent != null && currentstudent.Name != null && currentstudent.Address ) {
+                    studentFactory.addstudent(currentstudent).success(function (data) {
+                        $scope.addMode = false;
+                        currentstudent.ID = data.ID;
+                        $scope.Students.push(currentstudent);
+                        console.log("POST request fo creating a new student");
+
+                        //reset form
+                        $scope.student = null;
+                        // $scope.addstudentform.$setPristine(); //for form reset
+
+                        $('#studentModel').modal('hide');
+                    }).error(function (data) {
+                        $scope.error = "An Error has occured while Adding student! " + data.ExceptionMessage;
+                    });
+                }
+            };
+
+            //edit student
+            $scope.edit = function () {
+                $scope.student = this.student;
+                $scope.editMode = true;
+                $('#studentModel').modal('show');
+            };
+
+            //update student
+            $scope.update = function () {
+                var currentstudent = this.student;
+                studentFactory.updatestudent(currentstudent).success(function (data) {
+                    currentstudent.editMode = false;
+
+                    $('#studentModel').modal('hide');
+                }).error(function (data) {
+                    $scope.error = "An Error has occured while Updating student! " + data.ExceptionMessage;
+                });
+            };
+
+            // delete student
+            $scope.delete = function () {
+                currentstudent = $scope.student;
+                studentFactory.deletestudent(currentstudent).success(function (data) {
+                    $('#confirmModal').modal('hide');
+                    $scope.Students.pop(currentstudent);
+
+                }).error(function (data) {
+                    $scope.error = "An Error has occured while Deleting student! " + data.ExceptionMessage;
+
+                    $('#confirmModal').modal('hide');
+                });
+            };
+
+            //Model popup events
+            $scope.showadd = function () {
+                $scope.student = null;
+                $scope.editMode = false;
+                $('#studentModel').modal('show');
+            };
+
+            $scope.showedit = function () {
+                $('#studentModel').modal('show');
+            };
+
+            $scope.showconfirm = function (data) {
+                $scope.student = data;
+                $('#confirmModal').modal('show');
+            };
+
+            $scope.cancel = function () {
+                $scope.student = null;
+                $('#studentModel').modal('hide');
+            }
+
+            // initialize your Studentsdata
+            $scope.getAll();
+
+        });
+    </script>
+</body>
+</html>
